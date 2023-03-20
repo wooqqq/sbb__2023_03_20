@@ -19,5 +19,6 @@ public class Answer {
 
     private LocalDateTime createDate; //DATETIME
 
-    private Integer questionId;
+    @ManyToOne // 아래처럼 다른 엔티티 클래스 리모콘을 저장할 때는 꼭 관계를 적어준다.
+    private Question question;
 }

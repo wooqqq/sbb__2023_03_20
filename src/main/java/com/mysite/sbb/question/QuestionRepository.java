@@ -1,6 +1,5 @@
-package com.mysite.sbb;
+package com.mysite.sbb.question;
 
-import org.hibernate.boot.model.relational.QualifiedSequenceName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

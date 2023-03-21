@@ -22,6 +22,9 @@ class SbbApplicationTests {
 
     @BeforeEach // 아래 메서드는 각 테스트케이스가 실행되기 전에 실행된다.
     void beforeEach() {
+        answerRepository.deleteAll();
+        answerRepository.clearAutoIncrement();
+
         // 모든 데이터 삭제
         questionRepository.deleteAll();
 
@@ -164,10 +167,20 @@ class SbbApplicationTests {
     @Test
     @DisplayName("답변 데이터 생성 후 저장하기")
     void t009() {
-        // Question q = questionRepository.findById(2).get();
-        // 만약에 2번 질문이 없다면 Exception 발생
-        Question q = questionRepository.findById(2).orElse(null);
-        // 만약에 2번 질문이 없다면 null 리턴
+        Optional<Question> oq = questionRepository.findById(2);
+        assertTrue(oq.isPresent());
+        Question q = oq.get();
+
+        /*
+        // v1
+        Optional<Question> oq = questionRepository.findById(2);
+        Question q = oq.get();
+        */
+
+        /*
+        // v2
+        Question q = questionRepository.findById(2).get();
+        */
 
         Answer a = new Answer();
         a.setContent("네 자동으로 생성됩니다.");

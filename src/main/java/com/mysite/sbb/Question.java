@@ -3,7 +3,6 @@ package com.mysite.sbb;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.tool.schema.internal.exec.AbstractScriptTargetOutput;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,6 +35,7 @@ public class Question {
     // OneToMany 에는 직접객체초기화
     private List<Answer> answerList = new ArrayList<>();
 
+    // OneToMany 의 짝꿍. 무조건 와야함
     public void addAnswer(Answer a) {
         a.setQuestion(this);
         answerList.add(a);

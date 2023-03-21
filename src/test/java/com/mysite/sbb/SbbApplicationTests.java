@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -137,6 +138,7 @@ class SbbApplicationTests {
         id = ?
     */
     @Test
+    @DisplayName("데이터 수정하기")
     void t007() {
         Optional<Question> oq = this.questionRepository.findById(1);
         assertTrue(oq.isPresent());
@@ -154,6 +156,7 @@ class SbbApplicationTests {
         id = ?
     */
     @Test
+    @DisplayName("데이터 삭제하기")
     void t008() {
         // questionRepository.count()
         // SQL : SELECT COUNT(*) FROM question;
@@ -200,6 +203,7 @@ class SbbApplicationTests {
     }
 
     @Transactional
+    @Rollback(false)
     @Test
     @DisplayName("질문에 달린 답변 찾기")
     void t011() {

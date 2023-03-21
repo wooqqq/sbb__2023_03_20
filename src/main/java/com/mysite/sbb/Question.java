@@ -3,6 +3,7 @@ package com.mysite.sbb;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.tool.schema.internal.exec.AbstractScriptTargetOutput;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,4 +35,9 @@ public class Question {
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     // OneToMany 에는 직접객체초기화
     private List<Answer> answerList = new ArrayList<>();
+
+    public void addAnswer(Answer a) {
+        a.setQuestion(this);
+        answerList.add(a);
+    }
 }

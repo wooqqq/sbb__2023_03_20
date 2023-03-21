@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -45,11 +44,12 @@ class SbbApplicationTests {
         q2.setCreateDate(LocalDateTime.now());
         questionRepository.save(q2);  // 두번째 질문 저장
 
-        // 모든 데이터 삭제
-        answerRepository.deleteAll();
-
-        // 흔적 삭제 (다음번 INSERT 때 id가 1번으로 설정되도록)
-        answerRepository.clearAutoIncrement();
+        // 답변 1개 생성
+        Answer a1 = new Answer();
+        a1.setContent("네 자동으로 생성됩니다.");
+        a1.setQuestion(q2); // 어떤 질문의 답변인지 알기 위해서 Question 객체가 필요하다.
+        a1.setCreateDate(LocalDateTime.now());
+        answerRepository.save(a1);
     }
     @Test
     @DisplayName("데이터 저장")
@@ -187,5 +187,14 @@ class SbbApplicationTests {
         a.setQuestion(q); // 어떤 질문의 답변인지 알기 위해서 Question 객체가 필요하다
         a.setCreateDate(LocalDateTime.now());
         answerRepository.save(a);
+    }
+
+    @Test
+    @DisplayName("답변 조회하기")
+    void t010() {
+        Optional<Answer> oa = answerRepository.findById(1);
+        assertTrue(oa.isPresent());
+        Answer a = oa.get();
+        assertEquals(2, a.getQuestion().getId());
     }
 }

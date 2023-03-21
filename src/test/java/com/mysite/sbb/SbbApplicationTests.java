@@ -5,18 +5,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.awt.desktop.QuitStrategy;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class SbbApplicationTests {
     @Autowired
     private QuestionRepository questionRepository;
 
+    // 얘는 데이터 저장이니까 한번만 들어가야함
+    // 두번 들어가면 오류날 수도 있음
+    // 그럴땐 sql에서 init.sql의 테이블 내용 초기화를 실행하자
     @Test
     @DisplayName("데이터 저장")
     void t001() {
@@ -92,5 +95,25 @@ class SbbApplicationTests {
         List<Question> qList = questionRepository.findBySubjectLike("sbb%");
         Question q = qList.get(0);
         assertEquals("sbb가 무엇인가요?", q.getSubject());
+    }
+
+    /*
+    SQL
+    UPDATE
+        question
+    SET
+        content = ?,
+        create_date = ?,
+        subject = ?
+    WHERE
+        id = ?
+    */
+    @Test
+    void t007() {
+        Optional<Question> oq = this.questionRepository.findById(1);
+        assertTrue(oq.isPresent());
+        Question q = oq.get();
+        q.setSubject("수정된 제목");
+        this.questionRepository.save(q);
     }
 }

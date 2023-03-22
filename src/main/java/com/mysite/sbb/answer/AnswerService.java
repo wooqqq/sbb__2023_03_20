@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
@@ -20,9 +20,5 @@ public class AnswerService {
         answerRepository.save(answer);
 
         return answer;
-    }
-
-    public List<Answer> getAnswersByQuestionId(Integer id) {
-        return answerRepository.findByQuestionId(id);
     }
 }

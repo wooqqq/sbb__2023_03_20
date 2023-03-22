@@ -1,6 +1,5 @@
 package com.mysite.sbb.question;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +24,9 @@ public class QuestionController {
 
     @GetMapping("/question/detail/{id}")
     public String detail(Model model, @PathVariable("id")Integer id) {
-        model.addAttribute("id", id);
+        Question question = questionService.getQuestion(id);
+
+        model.addAttribute("question", question);
 
         return "question_detail";
     }

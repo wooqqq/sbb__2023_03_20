@@ -4,6 +4,7 @@ import com.mysite.sbb.question.Question;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Answer {
     @Id // PRIMARY KEY
     @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
@@ -21,6 +23,6 @@ public class Answer {
     private LocalDateTime createDate; //DATETIME
 
     @ManyToOne // 아래처럼 다른 엔티티 클래스 리모콘을 저장할 때는 꼭 관계를 적어준다.
+    @ToString.Exclude // ToString 대상에서 제외
     private Question question;
-    // `public class Answer` @ManyToOne `private Question question`
 }

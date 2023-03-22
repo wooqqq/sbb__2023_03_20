@@ -11,11 +11,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuestionController {
     private final QuestionRepository questionRepository;
+
     @GetMapping("/question/list")
     public String list(Model model) {
-        List<Question> questionsList = questionRepository.findAll();
+        List<Question> questionList = questionRepository.findAll();
 
-        model.addAttribute("questionList", questionsList);
+        model.addAttribute("questionList", questionList);
 
         return "question_list";
     }

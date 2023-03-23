@@ -39,11 +39,17 @@ public class QuestionController {
     }
 
     @GetMapping("/create")
-    public String questionCreate() {
+    // questionForm 변수는 model.addAttribute 없이 바로 뷰에서 접근할 수 있다.
+    // QuestionForm questionForm 써주는 이유, question_form.html 에서 questionForm 변수가 없으면 실행이 안되기 때문
+    // 빈 객체라도 만든다.
+    public String questionCreate2(QuestionForm questionForm) {
         return "question_form";
     }
 
     @PostMapping("/create")
+    // @Valid QuestionForm questionForm
+    // questionForm 값을 바인딩 할 때 유효성 체크를 해라!
+    // questionForm 변수와 bindingResult 변수는 model.addAttribute 없이 바로 뷰에서 접근할 수 있다.
     public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // question_form.html 실행

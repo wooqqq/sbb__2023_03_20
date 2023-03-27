@@ -5,6 +5,7 @@
 <body>
 <div layout:fragment="content" class="container my-3">
 
+    <!--/*
     <table class="table">
         <thead class="table-dark">
         <tr>
@@ -23,7 +24,6 @@
                 [[${paging.isEmpty()}]]
             </td>
         </tr>
-
         <tr>
             <th>paging.totalElements</th>
             <td>
@@ -33,7 +33,6 @@
                 [[${paging.totalElements}]]
             </td>
         </tr>
-
         <tr>
             <th>paging.totalPages</th>
             <td>
@@ -43,7 +42,6 @@
                 [[${paging.totalPages}]]
             </td>
         </tr>
-
         <tr>
             <th>paging.size</th>
             <td>
@@ -53,7 +51,6 @@
                 [[${paging.size}]]
             </td>
         </tr>
-
         <tr>
             <th>paging.number</th>
             <td>
@@ -63,7 +60,6 @@
                 [[${paging.number}]]
             </td>
         </tr>
-
         <tr>
             <th>paging.hasPrevious</th>
             <td>
@@ -73,7 +69,6 @@
                 [[${paging.hasPrevious}]]
             </td>
         </tr>
-
         <tr>
             <th>paging.hasNext</th>
             <td>
@@ -83,11 +78,10 @@
                 [[${paging.hasNext}]]
             </td>
         </tr>
-
         </tbody>
     </table>
-
     <hr>
+    */-->
 
     <table class="table">
 
@@ -110,6 +104,7 @@
         </tr>
         </tbody>
     </table>
+
 
     <nav th:if="${!paging.isEmpty()}">
         <ul class="pagination justify-content-center">

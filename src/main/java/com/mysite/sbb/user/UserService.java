@@ -11,6 +11,7 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final PasswordEncoder passwordEncoder;
+
     private final UserRepository userRepository;
 
     public SiteUser getUser(String username) {

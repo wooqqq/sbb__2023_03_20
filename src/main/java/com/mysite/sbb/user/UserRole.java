@@ -1,5 +1,6 @@
 package com.mysite.sbb.user;
 
+
 import lombok.Getter;
 
 @Getter

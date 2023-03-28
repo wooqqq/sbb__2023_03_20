@@ -89,7 +89,7 @@
             <col width="100">
             <col>
             <col width="200">
-            <col 1width="200">
+            <col width="200">
         </colgroup>
 
         <thead class="table-dark">
@@ -112,7 +112,7 @@
                       th:if="${#lists.size(q.answerList) > 0}"
                       th:text="${#lists.size(q.answerList)}"></span>
             </td>
-            <td th:text="${q.author}"></td>
+            <td><span th:if="${q.author != null}" th:text="${q.author.username}"></span></td>
             <td th:text="${#temporals.format(q.createDate, 'yy-MM-dd HH:mm')}"></td>
         </tr>
         </tbody>

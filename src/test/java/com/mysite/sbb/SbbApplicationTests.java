@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class SbbApplicationTests {
@@ -30,24 +31,26 @@ class SbbApplicationTests {
     @Autowired
     private UserService userService;
     @Autowired
+    private AnswerService answerService;
+
+    @Autowired
     private QuestionRepository questionRepository;
     @Autowired
     private AnswerRepository answerRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private AnswerService answerService;
 
     @BeforeEach
         // 아래 메서드는 각 테스트케이스가 실행되기 전에 실행된다.
     void beforeEach() {
+        // 모든 데이터 삭제
         answerRepository.deleteAll();
         answerRepository.clearAutoIncrement();
 
         // 모든 데이터 삭제
         questionRepository.deleteAll();
 
-        // 흔적 삭제 (다음번 INSERT 때 id가 1번으로 설정되도록)
+        // 흔적삭제(다음번 INSERT 때 id가 1번으로 설정되도록)
         questionRepository.clearAutoIncrement();
 
         // 모든 데이터 삭제
@@ -72,6 +75,7 @@ class SbbApplicationTests {
     void t001() {
         SiteUser user1 = userService.getUser("user1");
 
+        // 질문 1개 생성
         Question q = questionService.create("세계에서 가장 부유한 국가가 어디인가요?", "알고 싶습니다.", user1);
 
         assertEquals("세계에서 가장 부유한 국가가 어디인가요?", questionRepository.findById(3).get().getSubject());
@@ -80,7 +84,7 @@ class SbbApplicationTests {
     /*
     SQL
     SELECT * FROM question
-     */
+    */
     @Test
     @DisplayName("findAll")
     void t002() {
@@ -96,9 +100,9 @@ class SbbApplicationTests {
     SELECT *
     FROM question
     WHERE id = 1
-     */
+    */
     @Test
-    @DisplayName("findByID")
+    @DisplayName("findById")
     void t003() {
         Optional<Question> oq = questionRepository.findById(1);
 
@@ -113,7 +117,7 @@ class SbbApplicationTests {
     SELECT *
     FROM question
     WHERE subject = 'sbb가 무엇인가요?'
-     */
+    */
     @Test
     @DisplayName("findBySubject")
     void t004() {
@@ -121,6 +125,13 @@ class SbbApplicationTests {
         assertEquals(1, q.getId());
     }
 
+    /*
+    SQL
+    SELECT *
+    FROM question
+    WHERE subject = 'sbb가 무엇인가요?'
+    AND content = 'sbb에 대해서 알고 싶습니다.'
+    */
     @Test
     @DisplayName("findBySubjectAndContent")
     void t005() {
@@ -130,8 +141,14 @@ class SbbApplicationTests {
         assertEquals(1, q.getId());
     }
 
+    /*
+    SQL
+    SELECT *
+    FROM question
+    WHERE subject LIKE 'sbb%'
+    */
     @Test
-    @DisplayName("findBySubjectAndContent")
+    @DisplayName("findBySubjectLike")
     void t006() {
         List<Question> qList = questionRepository.findBySubjectLike("sbb%");
         Question q = qList.get(0);
@@ -152,11 +169,11 @@ class SbbApplicationTests {
     @Test
     @DisplayName("데이터 수정하기")
     void t007() {
-        Optional<Question> oq = this.questionRepository.findById(1);
+        Optional<Question> oq = questionRepository.findById(1);
         assertTrue(oq.isPresent());
         Question q = oq.get();
         q.setSubject("수정된 제목");
-        this.questionRepository.save(q);
+        questionRepository.save(q);
     }
 
     /*
@@ -172,12 +189,12 @@ class SbbApplicationTests {
     void t008() {
         // questionRepository.count()
         // SQL : SELECT COUNT(*) FROM question;
-        assertEquals(2, this.questionRepository.count());
-        Optional<Question> oq = this.questionRepository.findById(1);
+        assertEquals(2, questionRepository.count());
+        Optional<Question> oq = questionRepository.findById(1);
         assertTrue(oq.isPresent());
         Question q = oq.get();
-        this.questionRepository.delete(q);
-        assertEquals(1, this.questionRepository.count());
+        questionRepository.delete(q);
+        assertEquals(1, questionRepository.count());
     }
 
     @Transactional // 여기서의 트랜잭션의 역할 : 함수가 끝날 때까지 전화(DB와의)를 끊지 않음
@@ -214,7 +231,7 @@ class SbbApplicationTests {
         assertEquals(2, a.getQuestion().getId());
     }
 
-    @Transactional
+    @Transactional // 여기서의 트랜잭션의 역할 : 함수가 끝날 때까지 전화(DB와의)를 끊지 않음
     @Rollback(false)
     @Test
     @DisplayName("질문에 달린 답변 찾기")

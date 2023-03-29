@@ -52,4 +52,13 @@ public class QuestionService {
         question.setModifyDate(LocalDateTime.now());
         questionRepository.save(question);
     }
+
+    public void delete(Question question) {
+        questionRepository.delete(question);
+    }
+
+    public void vote(Question question, SiteUser voter) {
+        question.addVoter(voter);
+        questionRepository.save(question);
+    }
 }

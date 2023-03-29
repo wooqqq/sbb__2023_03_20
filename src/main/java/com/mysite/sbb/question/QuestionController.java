@@ -5,9 +5,7 @@ import com.mysite.sbb.user.SiteUser;
 import com.mysite.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.sqm.internal.QuerySqmImpl;
 import org.springframework.data.domain.Page;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -28,7 +26,7 @@ public class QuestionController {
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<Question> paging = questionService.getList(page);
+        Page<Question> paging = questionService.getList(page, null);
 
         model.addAttribute("paging", paging);
 
